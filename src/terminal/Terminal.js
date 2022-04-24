@@ -4,6 +4,7 @@ import { Shake } from 'reshake'
 
 // Commands
 import validateCommand from './scripts/validateCommand'
+import executeCommand from './scripts/executeCommand'
 
 // Definitions
 import sourceStyles from '../defs/styles/terminal/Terminal'
@@ -19,7 +20,12 @@ export default class Terminal extends Component {
           'name': 'help',
           'ArgumentParser': null,
           'description': 'Lists commands available..'
-        }
+        },
+        {
+          'name': 'clear',
+          'ArgumentParser': 'null',
+          'description': 'Clears stdout..'
+        },
       ],
       processing: false,
       stdout: [],
@@ -28,6 +34,44 @@ export default class Terminal extends Component {
 
     this.terminalRoot = React.createRef()
     this.terminalInput = React.createRef()
+  }
+
+  // SIGNAL FUNCTIONALITY
+
+  emitSignal = (signalNumber) => {
+    return this.signalDict[signalNumber]()
+  }
+
+  // STATE FUNCTIONALITY
+
+  clearStdout = () => {
+    this.setState({'stdout': []})
+  }
+
+  pushStdout = (item) => {
+    var stdoutArray = this.state.stdout.slice()
+    stdoutArray.push(item)
+    this.setState({'stdout': stdoutArray})
+  }
+
+  getStdoutArray = () => {
+    return this.state.stdout.slice()
+  }
+
+  getStdoutTerminal = () => {
+    var stdoutArray = this.state.stdout.slice()
+    let output = ''
+    if (stdoutArray.length > 0) {
+      output = stdoutArray.flatMap((item, i) => [
+        <p key={i}
+        >
+          {item}<br/>
+        </p>,
+        ''
+      ])
+    }
+
+    return output
   }
 
   // INPUT FUNCTIONALITY
@@ -60,8 +104,12 @@ export default class Terminal extends Component {
         const validCommandDict = validateCommand(this.state.commands, command)
 
         if (validCommandDict && validCommandDict.hasOwnProperty("name")){
-          console.dir(validCommandDict)
-          this.state.shakeActive = false;
+          let commandOutput = executeCommand(this.state.commands, command, args)
+          if (typeof commandOutput === 'string'){
+            this.pushStdout(commandOutput)
+          } else if (typeof commandOutput === 'number'){
+            this.emitSignal(commandOutput)
+          }
         } else {
           this.state.shakeActive = true;
           const timer = setTimeout(() => {
@@ -72,9 +120,15 @@ export default class Terminal extends Component {
 
         this.setState({processing: false}, () => {
           this.clearInput();
+          console.dir(this.state.stdout)
         })
       }
     })
+  }
+
+  // CONSTANTS
+  signalDict = {
+    100: this.clearStdout
   }
 
   render() {
@@ -103,6 +157,7 @@ export default class Terminal extends Component {
           <div
             style={styles.content}
           >
+            {this.getStdoutTerminal()}
             <div
               style={styles.inputArea}
             >
