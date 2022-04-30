@@ -13,7 +13,7 @@ export default class Terminal extends Component {
 
   constructor(props) {
     super(props)
-
+    this.welcomeStdoutArray = ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started..\n"]
     this.state = {
       commands: [
         {
@@ -28,7 +28,7 @@ export default class Terminal extends Component {
         },
       ],
       processing: false,
-      stdout: ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started.."],
+      stdout: this.welcomeStdoutArray,
       shakeActive: false,
     }
 
@@ -44,11 +44,12 @@ export default class Terminal extends Component {
   }
 
   // STATE FUNCTIONALITY
-
   clearStdout = () => {
-    this.setState({'stdout': []}, () => {
-      return ''
+
+    return new Promise(resolve => {
+      this.setState({'stdout': this.welcomeStdoutArray}, () => resolve())
     })
+
   }
 
   pushStdout = (item) => {
@@ -126,7 +127,7 @@ export default class Terminal extends Component {
           let commandOutput = executeCommand(this.state.commands, command, args)
 
           if (typeof commandOutput === 'string'){
-            await this.pushStdout(commandOutput)
+            await this.pushStdout('\n' + commandOutput)
           } else if (typeof commandOutput === 'number'){
             this.emitSignal(commandOutput)
           }
