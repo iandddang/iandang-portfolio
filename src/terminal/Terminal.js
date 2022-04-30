@@ -13,18 +13,24 @@ export default class Terminal extends Component {
 
   constructor(props) {
     super(props)
-    this.welcomeStdoutArray = ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started..\n"]
+    this.welcomeStdoutArray = ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started.."]
     this.state = {
+      // TODO: **NOT URGENT, refactor all commands into validateCommand/executeCommand
       commands: [
         {
           'name': 'help',
           'ArgumentParser': null,
-          'description': 'Lists commands available..'
+          'description': 'Lists commands available'
         },
         {
           'name': 'clear',
           'ArgumentParser': 'null',
-          'description': 'Clears stdout..'
+          'description': 'Clears stdout'
+        },
+        {
+          'name': 'shrimp',
+          'ArgumentParser': 'null',
+          'description': 'Shrimp surprise :)'
         },
       ],
       processing: false,
@@ -67,14 +73,29 @@ export default class Terminal extends Component {
 
   getStdoutTerminal = () => {
     var stdoutArray = this.state.stdout.slice()
-    let output = ''
+    let itemElements = []
 
     for (let i = 0; i < stdoutArray.length; i++) {
-      let stdoutItem = stdoutArray[i]
-      output += (stdoutItem + "\n")
+
+      let item = stdoutArray[i]
+      let itemSplit = item.split('\n')
+      for (let y = 0; y < itemSplit.length; y++) {
+        let split = itemSplit[y]
+        if(Boolean(split) && split.includes('https')) {
+          itemElements.push(<a href={split}>{split}</a>)
+        } else if (Boolean(split)) {
+          itemElements.push(split + '\n')
+        }
+      }
+
+      itemElements.push(<br/>)
     }
 
-    return output
+    return (
+      <div>
+        {itemElements}
+      </div>
+    )
   }
 
   shakeActivate = async () => {
@@ -127,12 +148,12 @@ export default class Terminal extends Component {
           let commandOutput = executeCommand(this.state.commands, command, args)
 
           if (typeof commandOutput === 'string'){
-            await this.pushStdout('\n' + commandOutput)
+            await this.pushStdout(commandOutput)
           } else if (typeof commandOutput === 'number'){
             this.emitSignal(commandOutput)
           }
         } else {
-          let commandFailStr = '\n`' + command + '` is not a valid command.\nType `help` to see available commands.\n'
+          let commandFailStr = '\n`' + command + '` is not a valid command.\nType `help` to see available commands.'
           await this.pushStdout(commandFailStr)
           await this.shakeActivate()
         }
@@ -158,6 +179,7 @@ export default class Terminal extends Component {
       inputArea: defaults(this.props.inputAreaStyle, sourceStyles.inputArea),
       promptLabel: defaults(this.props.promptLabelStyle, sourceStyles.promptLabel)
     }
+
 
     return (
       <Shake
@@ -197,5 +219,6 @@ export default class Terminal extends Component {
         </div>
       </Shake>
     )
+
   }
 }
