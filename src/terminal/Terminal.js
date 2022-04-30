@@ -28,12 +28,13 @@ export default class Terminal extends Component {
         },
       ],
       processing: false,
-      stdout: [],
+      stdout: ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started.."],
       shakeActive: false,
     }
 
     this.terminalRoot = React.createRef()
     this.terminalInput = React.createRef()
+    this.terminalInputRoot = React.createRef()
   }
 
   // SIGNAL FUNCTIONALITY
@@ -45,13 +46,19 @@ export default class Terminal extends Component {
   // STATE FUNCTIONALITY
 
   clearStdout = () => {
-    this.setState({'stdout': []})
+    this.setState({'stdout': []}, () => {
+      return ''
+    })
   }
 
   pushStdout = (item) => {
     var stdoutArray = this.state.stdout.slice()
     stdoutArray.push(item)
-    this.setState({'stdout': stdoutArray})
+    console.dir('hi')
+
+    return new Promise(resolve => {
+      this.setState({'stdout': stdoutArray}, () => resolve())
+    })
   }
 
   getStdoutArray = () => {
@@ -61,17 +68,28 @@ export default class Terminal extends Component {
   getStdoutTerminal = () => {
     var stdoutArray = this.state.stdout.slice()
     let output = ''
-    if (stdoutArray.length > 0) {
-      output = stdoutArray.flatMap((item, i) => [
-        <p key={i}
-        >
-          {item}<br/>
-        </p>,
-        ''
-      ])
+
+    for (let i = 0; i < stdoutArray.length; i++) {
+      let stdoutItem = stdoutArray[i]
+      output += (stdoutItem + "\n")
     }
 
     return output
+  }
+
+  shakeActivate = async () => {
+    await new Promise(resolve => {
+      this.setState({shakeActive: true}, () => resolve())
+    })
+
+    await new Promise(resolve => {
+      setTimeout(() => {},250, () => resolve())
+    })
+
+    await new Promise(resolve => {
+      this.setState({shakeActive: false}, () => resolve())
+    })
+
   }
 
   // INPUT FUNCTIONALITY
@@ -92,30 +110,29 @@ export default class Terminal extends Component {
   // .. process user command (input)
   processInput = () => {
     this.setState({processing: true}, async () => {
-      const inputValue = this.terminalInput.current.value
+      let inputValue = this.terminalInput.current.value
       if (inputValue) {
-        const inputValueSplit = inputValue.split(' ')
+        let inputValueSplit = inputValue.split(' ')
 
         // command always first arg
-        const command = inputValueSplit[0]
-        const args = inputValueSplit.splice(0, 1)
+        let command = inputValueSplit[0]
+        let args = inputValueSplit.splice(0, 1)
 
         // null or {...}
-        const validCommandDict = validateCommand(this.state.commands, command)
+        let validCommandDict = validateCommand(this.state.commands, command)
 
         if (validCommandDict && validCommandDict.hasOwnProperty("name")){
           let commandOutput = executeCommand(this.state.commands, command, args)
+          let commandHeader = this.terminalInputRoot.current.textContent + " " + command;
+
           if (typeof commandOutput === 'string'){
-            this.pushStdout(commandOutput)
+            await this.pushStdout(commandHeader)
+            await this.pushStdout(commandOutput)
           } else if (typeof commandOutput === 'number'){
             this.emitSignal(commandOutput)
           }
         } else {
-          this.state.shakeActive = true;
-          const timer = setTimeout(() => {
-            this.state.shakeActive = false;
-          }, 250);
-          clearTimeout(timer)
+          await this.shakeActivate()
         }
 
         this.setState({processing: false}, () => {
@@ -160,6 +177,7 @@ export default class Terminal extends Component {
             {this.getStdoutTerminal()}
             <div
               style={styles.inputArea}
+              ref={this.terminalInputRoot}
             >
               <span
                 style={styles.promptLabel}

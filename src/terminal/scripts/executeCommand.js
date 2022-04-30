@@ -9,13 +9,13 @@ const executeCommand = (commands, command, args) => {
 
   // define functions here..
   function help() {
-    let output = 'These shell commands are defined internally.  Type `help` to see this list.'
+    let output = 'These shell commands are defined internally.\nType `help` to see this list.\n\nCommand - Description\n'
     for (let i = 0; i < commands.length; i++){
       const commandDict = commands[i]
       const commandName = commandDict['name']
       const commandDescription = commandDict['description']
 
-      const commandOutput = commandName + "\t" + commandDescription + "<br>"
+      const commandOutput = commandName + " - " + commandDescription + "\n"
       output += commandOutput
 
     }

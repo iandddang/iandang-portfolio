@@ -13,9 +13,11 @@ export default {
     content: {
         padding: '20px',
         height: '100%',
-        fontSize: '15px',
+        fontSize: '13px',
         color: '#FFFFFF',
-        fontFamily: 'monospace'
+        fontFamily: 'monospace',
+        textAlign: 'left',
+        whiteSpace: 'pre-line',
     },
     inputArea: {
         display: 'inline-flex',
@@ -26,8 +28,8 @@ export default {
         color: '#EE9C34'
     },
     inputText: {
-        fontSize: '15px',
-        color: '#F0BF81',
+        fontSize: '13px',
+        color: '#FFFFFF',
         fontFamily: 'monospace'
     },
     input: {
