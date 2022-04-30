@@ -115,15 +115,17 @@ export default class Terminal extends Component {
         let command = inputValueSplit[0]
         let args = inputValueSplit.splice(0, 1)
 
+        // push command history, always
+        let commandHeader = "\n" + this.terminalInputRoot.current.textContent + " " + command;
+        await this.pushStdout(commandHeader)
+
         // null or {...}
         let validCommandDict = validateCommand(this.state.commands, command)
 
         if (validCommandDict && validCommandDict.hasOwnProperty("name")){
           let commandOutput = executeCommand(this.state.commands, command, args)
-          let commandHeader = this.terminalInputRoot.current.textContent + " " + command;
 
           if (typeof commandOutput === 'string'){
-            await this.pushStdout(commandHeader)
             await this.pushStdout(commandOutput)
           } else if (typeof commandOutput === 'number'){
             this.emitSignal(commandOutput)
