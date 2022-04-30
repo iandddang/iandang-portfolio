@@ -54,7 +54,6 @@ export default class Terminal extends Component {
   pushStdout = (item) => {
     var stdoutArray = this.state.stdout.slice()
     stdoutArray.push(item)
-    console.dir('hi')
 
     return new Promise(resolve => {
       this.setState({'stdout': stdoutArray}, () => resolve())
@@ -78,16 +77,14 @@ export default class Terminal extends Component {
   }
 
   shakeActivate = async () => {
-    await new Promise(resolve => {
-      this.setState({shakeActive: true}, () => resolve())
-    })
-
-    await new Promise(resolve => {
-      setTimeout(() => {},250, () => resolve())
-    })
-
-    await new Promise(resolve => {
-      this.setState({shakeActive: false}, () => resolve())
+    return new Promise(resolve => {
+      this.setState({'shakeActive': true}, async () => {
+        setTimeout(() => {
+          this.setState({'shakeActive': false}, () => {
+            resolve()
+          })
+        }, 350)
+      })
     })
 
   }
@@ -132,12 +129,13 @@ export default class Terminal extends Component {
             this.emitSignal(commandOutput)
           }
         } else {
+          let commandFailStr = '\n`' + command + '` is not a valid command.\nType `help` to see available commands.\n'
+          await this.pushStdout(commandFailStr)
           await this.shakeActivate()
         }
 
         this.setState({processing: false}, () => {
           this.clearInput();
-          console.dir(this.state.stdout)
         })
       }
     })
@@ -160,11 +158,11 @@ export default class Terminal extends Component {
 
     return (
       <Shake
-        h={10}
-        v={0}
+        h={15}
+        v={1}
         r={0}
         q={1}
-        dur={250}
+        dur={350}
         active={this.state.shakeActive}
       >
         <div
