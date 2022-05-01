@@ -1,2 +1,2 @@
-# how i hosted woohoo ...
-https://www.codingdeft.com/posts/react-deploy-google-cloud-app-engine/
+### One day, I'll update this page..
+Visit it here... https://iandang.day
