@@ -36,7 +36,7 @@ const executeCommand = (commands, command, args) => {
     output += 'Hi, my name is Ian Dang and thank you so much for visiting my website!\n'
     output += 'I am a software engineer residing in Orange County, California.\n'
     output += 'My passions are: learning, learning, and learning.\n'
-    output += 'How could I not? We live in the craziest timeline, the 21st century!\n'
+    output += 'We live in the craziest timeline, the 21st century!\n'
     output += 'Should you want to know more about me, please read the section(s) below.\n'
     output += '=========================================================================\n'
     output += '============================= TECHNOLOGIES ==============================\n'
