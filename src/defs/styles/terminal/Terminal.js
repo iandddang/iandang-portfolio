@@ -25,7 +25,7 @@ export default {
     },
     promptLabel: {
         paddingTop: '3px',
-        color: '#EE9C34'
+        color: '#90EE90'
     },
     inputText: {
         fontSize: '13px',
@@ -41,5 +41,8 @@ export default {
         height: '22px',
         background: 'transparent',
         outline: 'none' // Fix for outline showing up on some browsers
+    },
+    a: {
+        color: '#189a18'
     }
 }
