@@ -1,1 +1,1 @@
-gcloud app deploy dispatch.yaml
+gcloud app deploy
