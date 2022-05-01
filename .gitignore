@@ -2,6 +2,7 @@
 
 # build artfifacts
 /build
+package-lock.json
 
 # dependencies
 /node_modules
