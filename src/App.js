@@ -1,3 +1,4 @@
+import './App.css';
 import Terminal from "./terminal/Terminal";
 
 function App() {
