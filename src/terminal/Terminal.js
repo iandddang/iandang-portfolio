@@ -13,7 +13,7 @@ export default class Terminal extends Component {
 
   constructor(props) {
     super(props)
-    this.welcomeStdoutArray = ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started.."]
+    this.welcomeStdoutArray = ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started..", "https://github.com/iandddang/iandang-portfolio\n...\n"]
     this.state = {
       // TODO: **NOT URGENT, refactor all commands into validateCommand/executeCommand
       commands: [
@@ -26,6 +26,11 @@ export default class Terminal extends Component {
           'name': 'clear',
           'ArgumentParser': 'null',
           'description': 'Clears stdout'
+        },
+        {
+          'name': 'about',
+          'ArgumentParser': 'null',
+          'description': 'Who is Ian Dang'
         },
         {
           'name': 'shrimp',
@@ -82,14 +87,14 @@ export default class Terminal extends Component {
       for (let y = 0; y < itemSplit.length; y++) {
         let split = itemSplit[y]
         if(Boolean(split) && split.includes('https')) {
-          itemElements.push(<a href={split}>{split}</a>)
+          itemElements.push(<a style={sourceStyles.a} target="_blank" rel='noopener noreferrer' href={split}>{split}</a>)
         } else if (Boolean(split)) {
           itemElements.push(split + '\n')
         }
       }
-
       itemElements.push(<br/>)
     }
+    itemElements.push(<br/>)
 
     return (
       <div>
