@@ -13,7 +13,7 @@ export default class Terminal extends Component {
 
   constructor(props) {
     super(props)
-    this.welcomeStdoutArray = ["Welcome to Ian's Portfolio!", "Type `help` in the terminal to get started..", "https://github.com/iandddang/iandang-portfolio\n...\n"]
+    this.welcomeStdoutArray = ["Welcome to Ian Dang's Portfolio!", "Type `help` in the terminal to get started..", "https://github.com/iandddang/iandang-portfolio\n...\n", "**disclaimer: this is a static page ;)"]
     this.state = {
       // TODO: **NOT URGENT, refactor all commands into validateCommand/executeCommand
       commands: [
