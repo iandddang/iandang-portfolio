@@ -55,8 +55,8 @@ const executeCommand = (commands, command, args) => {
     output += '=============================== WORK EXP ================================\n'
     output += '=========================================================================\n'
     output += '======== [Huntington Beach, CA] Voluware SWE 3 (2019 to XXXX)\n'
-    output += 'https://voluware.com\n...\n'
-    output += '\n======== [Newport Beach, CA] Zulu Quant SWE Intern (2018 to 2019)\n'
+    output += 'https://voluware.com\n \n'
+    output += '======== [Newport Beach, CA] Zulu Quant SWE Intern (2018 to 2019)\n'
     output += 'n/a\n'
     output += '=========================================================================\n'
     output += '=============================== EDUCATION ===============================\n'
@@ -73,7 +73,7 @@ const executeCommand = (commands, command, args) => {
     output += '======== EMAIL\n'
     output += 'iandddang@gmail.com\n'
     output += '======== LINKEDIN\n'
-    output += 'https://www.linkedin.com/in/ian-dang\n...\n'
+    output += 'https://www.linkedin.com/in/ian-dang\n \n'
     return output
   }
 
@@ -114,7 +114,7 @@ const executeCommand = (commands, command, args) => {
     __________________________________________________________________
     `
 
-    return shrimpAscii + '\nAt the start of the pandemic, I stepped foot into the freshwater aquarium hobby!\n----> View my public collection of images/videos here...\nhttps://www.instagram.com/aquamaynn/?hl=en\n...\n'
+    return shrimpAscii + '\nAt the start of the pandemic, I stepped foot into the freshwater aquarium hobby!\n----> View my public collection of images/videos here...\nhttps://www.instagram.com/aquamaynn/?hl=en\n \n'
   }
 
 

@@ -19,6 +19,14 @@ export default {
         textAlign: 'left',
         whiteSpace: 'pre-line',
     },
+    footer: {
+        padding: '20px',
+        fontSize: '8px',
+        color: '#B3B6B7',
+        fontFamily: 'monospace',
+        textAlign: 'left',
+        whiteSpace: 'pre-line',
+    },
     inputArea: {
         display: 'inline-flex',
         width: '100%'

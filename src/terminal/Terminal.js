@@ -13,7 +13,7 @@ export default class Terminal extends Component {
 
   constructor(props) {
     super(props)
-    this.welcomeStdoutArray = ["Welcome to Ian Dang's Portfolio!", "Type `help` in the terminal to get started..", "https://github.com/iandddang/iandang-portfolio\n...\n", "**disclaimer: this is a static page ;)"]
+    this.welcomeStdoutArray = ["Welcome to Ian Dang's Portfolio!", "Type `help` in the terminal to get started.."]
     this.state = {
       // TODO: **NOT URGENT, refactor all commands into validateCommand/executeCommand
       commands: [
@@ -64,7 +64,7 @@ export default class Terminal extends Component {
   }
 
   pushStdout = (item) => {
-    var stdoutArray = this.state.stdout.slice()
+    let stdoutArray = this.state.stdout.slice()
     stdoutArray.push(item)
 
     return new Promise(resolve => {
@@ -77,7 +77,7 @@ export default class Terminal extends Component {
   }
 
   getStdoutTerminal = () => {
-    var stdoutArray = this.state.stdout.slice()
+    let stdoutArray = this.state.stdout.slice()
     let itemElements = []
 
     for (let i = 0; i < stdoutArray.length; i++) {
@@ -87,7 +87,7 @@ export default class Terminal extends Component {
       for (let y = 0; y < itemSplit.length; y++) {
         let split = itemSplit[y]
         if(Boolean(split) && split.includes('https')) {
-          itemElements.push(<a style={sourceStyles.a} target="_blank" rel='noopener noreferrer' href={split}>{split}</a>)
+          itemElements.push(<a style={sourceStyles.a} target="_blank" rel='noopener noreferrer' href={split}>[{split}]</a>)
         } else if (Boolean(split)) {
           itemElements.push(split + '\n')
         }
@@ -180,11 +180,11 @@ export default class Terminal extends Component {
     const styles = {
       container: defaults(this.props.style, sourceStyles.container),
       content: defaults(this.props.contentStyle, sourceStyles.content),
+      footer: defaults(this.props.footerStyle, sourceStyles.footer),
       input: defaults({...this.props.inputStyle, ...this.props.inputTextStyle}, {...sourceStyles.input, ...sourceStyles.inputText}),
       inputArea: defaults(this.props.inputAreaStyle, sourceStyles.inputArea),
       promptLabel: defaults(this.props.promptLabelStyle, sourceStyles.promptLabel)
     }
-
 
     return (
       <Shake
@@ -221,6 +221,16 @@ export default class Terminal extends Component {
               />
             </div>
           </div>
+        </div>
+        <div
+          style={styles.footer}
+        >
+          <i>**this is a static page, nothing to dig for here ;)</i>
+          <br/>
+          <i>**this page is served by gcloud, and may take a while to load first-time</i>
+          <br/>
+          <i>read more here.. <a style={sourceStyles.a} href="https://github.com/iandddang/iandang-portfolio">repo</a></i>
+          <br/>
         </div>
       </Shake>
     )
