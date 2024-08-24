@@ -225,11 +225,7 @@ export default class Terminal extends Component {
         <div
           style={styles.footer}
         >
-          <i>**this is a static page, nothing to dig for here ;)</i>
-          <br/>
-          <i>**this page is served by gcloud, and may take a while to load first-time</i>
-          <br/>
-          <i>read more here.. <a style={sourceStyles.a} href="https://github.com/iandddang/iandang-portfolio">repo</a></i>
+          <i>Self-hosted, <a style={sourceStyles.a} href="https://github.com/iandddang/iandang-portfolio">repository here</a></i>
           <br/>
         </div>
       </Shake>
