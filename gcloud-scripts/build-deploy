@@ -1,1 +1,0 @@
-npm run build && yes | gcloud app deploy
